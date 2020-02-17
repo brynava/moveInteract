@@ -1,0 +1,2250 @@
+if (input_left) {
+	while (instance_nearest(x, y, obj_ice)) {
+		moveX -= clamp(ispd, 3, 3)
+	} 
+}
+
+else if (input_right) {
+	while (instance_nearest(x, y, obj_ice)) {
+		moveX += clamp(ispd, 3, 3)
+	}
+}
+
+else if (input_up) {
+	while (instance_nearest(x, y, obj_ice)) {
+		moveY -= clamp(ispd, 3, 3)
+	}
+}
+
+else if (input_down) {
+	while (instance_nearest(x, y, obj_ice)) {
+		moveY += clamp(ispd, 3, 3)
+	}
+}
+
+if (!instance_nearest(x, y, obj_ice) or place_meeting(x, y, obj_wall)) {
+	state = states.normal;
+}
+
+-------------------------------------------------------------------------------------------------
+if (input_left) {
+	do {
+		moveX = -ispd;
+	} until (!instance_nearest(x, y, obj_ice) or place_meeting(x, y, obj_wall))
+}
+
+if (input_right) {
+	do {
+		moveX = ispd;
+	} until (!instance_nearest(x, y, obj_ice) or place_meeting(x, y, obj_wall))
+}
+
+if (input_up) {
+	do {
+		moveY = -ispd;
+	} until (!instance_nearest(x, y, obj_ice) or place_meeting(x, y, obj_wall))
+}
+
+if (input_down) {
+	do {
+		moveY = ispd;
+	} until (!instance_nearest(x, y, obj_ice) or place_meeting(x, y, obj_wall))
+}
+------------------------------------------------------------------------------------------------------------------
+if (moveX = spd or rspd) {
+	if (moveX != spd or rspd) {
+		moveX = ispd;
+	}
+	switch (keyboard_key) {
+		case input_left: moveX = -ispd;	break;
+		case input_right: moveX = ispd;	break;
+	}
+} 
+	else if (place_meeting(x + moveX, y, obj_wall)) {
+	state = states.normal;
+}
+
+if (!place_meeting(x + sign(moveX), y, obj_wall)) {
+	x = ispd;
+} 
+
+if (!place_meeting(x, y + sign(moveY), obj_wall)) {
+	y = ispd;
+}
+else if (place_meeting(x + sign(moveX), y, obj_wall)) {
+	x = 0;
+	
+}
+
+do {
+	x = ispd;
+}
+until place_meeting(x + sign(moveX), y, obj_wall) //movex might not work because it's use is based off inputs (states.normal)
+
+do {
+	y = ispd;
+}
+until place_meeting(x, y + sign(moveX), obj_wall)
+---------------------------------------------------------------------------------------------------------------------
+if (place_meeting(x + sign(moveX), y, obj_wall)) {
+	if (input_left or input_right) {
+		moveX = (input_right - input_left) * ispd;
+	}
+}
+
+if (place_meeting(x + sign(moveX), y, obj_wall)) { //have to assign moveX to equal ispd value //if placemeeting next to wall, let you move in a direction, once moving slide to another wall (cannot press keys during this time), and hit wall and reset again.
+	
+	repeat abs(moveX) {
+	if (!place_meeting(x + sign(moveX), y, obj_wall)) {
+		x += sign(moveX)
+		}	else { break; }
+	}
+	
+}
+
+if (moveX != 0) {
+	do {
+		x += sign(moveX) * ispd;
+	} until place_meeting(x + sign(moveX), y, obj_wall);
+}
+
+if (moveY != 0) {
+	do {
+		y += sign(moveY) * ispd;
+	} until place_meeting(x, y + sign(moveY), obj_wall);
+}
+
+if (place_meeting(x + sign(moveX), y, obj_wall) and moveX = 0 and moveY = 0) {
+	moveX = (input_right - input_left) * ispd;
+}
+
+if (place_meeting(x, y + sign(moveY), obj_wall) and moveX = 0 and moveY = 0) {
+	moveY = (input_down - input_up) * ispd;
+}
+----------------------------------------------------------------------------------------------------------
+if (!place_meeting(x, y, obj_ice)) {
+	
+}
+
+if (input_left) {
+	do {
+		x -= ispd;
+	} 
+}
+
+if (instance_nearest(x, y, obj_wall) and moveX != 0 or moveY != 0) {
+	
+}
+
+repeat {
+moveX = ()
+moveY = ()
+} else if () {
+	
+}
+
+switch (keyboard_key) {
+	case input_left: do  { moveX = -ispd; }	until moveX = 0 and moveY = 0; 	break;
+	case input_right: do { moveX = ispd; }	until moveX = 0 and moveY = 0; 	break;
+	case input_up: do    { moveY = -ispd; }	until moveX = 0 and moveY = 0; 	break;
+	case input_down: do  { moveY = ispd; }	until moveX = 0 and moveY = 0; 	break;
+}
+----------------------------------------------------------------------------------------------------------
+if(moveX != 0 and moveY != 0) {
+	switch (keyboard_key) {
+		case input_left: repeat abs(moveX) { moveX = -spd; }  	break;
+		case input_right: repeat abs(moveX) { moveX = spd; }  	break;
+		case input_up:	repeat abs(moveY) { moveY = -spd; }		break;
+		case input_down: repeat abs(moveY) { moveY = spd; } 	break;
+	}
+} else if (place_meeting(x + sign(moveX), y + sign(moveY), obj_wall)) {
+	
+}
+
+if (!place_meeting(x, y, obj_ice)) { //State Check
+	state = states.normal;
+}
+----------------------------------------------------------------------------------------------------------
+for (moveX != 0; !place_meeting(x + sign(moveX), y, obj_wall); sign(moveX) * spd) { //starting position (var starts from here), while (this is taking place), execute this statement
+	switch (keyboard_key) {
+		case input_left: repeat abs(moveX) { moveX = -spd; }  	break;
+		case input_right: repeat abs(moveX) { moveX = spd; }  	break;
+	}
+}
+
+for (moveX = 0; !place_meeting(x + sign(moveX), y, obj_wall); moveX *= spd) {
+	moveX = (input_right - input_left) * spd;
+}
+---------------------------------------------------------------------------------------------------------
+if (place_meeting(x + sign(moveX), y, obj_wall)) {
+	moveX = (input_right - input_left) * spd;
+}
+
+if (moving = true) {
+	if (moveX < 0) {
+		moveY = 0;
+		input_right = false;
+	}
+	else if (moveX > 0) {
+		moveY = 0;
+		input_left = false;
+	}
+	else if (moveY < 0) {
+		moveX = 0;
+		input_down = false;
+	}
+	else if (moveY > 0) {
+		moveX = 0;
+		input_up = false;
+	}
+}
+
+switch (moving) {
+	case moveX < 0: moveY = 0 and input_right = false; break;
+	case moveX > 0: moveY = 0 and input_left = false; break;
+	case moveY < 0: moveX = 0 and input_down = false; break;
+	case moveY > 0: moveX = 0 and input_up = false; break;
+}
+-------------------------------------------------------------------------------------------------------
+if (place_meeting(x + sign(moveX), y, obj_wall)) {
+	moveX = (input_right - input_left) * spd;
+} else { moving = true }
+
+
+
+switch (moving) {
+	case moveX < 0: moveY = 0 and input_right = false; break;
+	case moveX > 0: moveY = 0 and input_left = false; break;
+	case moveY < 0: moveX = 0 and input_down = false; break;
+	case moveY > 0: moveX = 0 and input_up = false; break;
+}
+-----------------------------------------------------------------------------------------------------
+switch (moving) {
+	case dir_left: moveY = 0 and input_right = false; break;
+	case dir_right: moveY = 0 and input_left = false; break;
+	case dir_up: moveX = 0 and input_down = false; break;
+	case dir_down: moveX = 0 and input_up = false; break;
+}
+-------------------------------------------------------------------------------------------------------------
+can_move = true;
+dir_left = x < 0;
+dir_right = x > 0;
+dir_up = y < 0;
+dir_down = y > 0;
+
+
+
+switch (moving) {
+	case dir_left: moveY = 0 and input_right = false; break;
+	case dir_right: moveY = 0 and input_left = false; break;
+	case dir_up: moveX = 0 and input_down = false; break;
+	case dir_down: moveX = 0 and input_up = false; break;
+}
+
+
+for (moveX = !0; place_meeting(x + sign(moveX), y, !obj_wall); moveX *= spd) {
+	moveX = (input_right - input_left) * spd;
+	moving = true;
+}
+
+for (moveY = !0; place_meeting(x, y + sign(moveY), !obj_wall); moveY *= spd) {
+	moveY = (input_down - input_up) * spd;
+	moving = true;
+}
+---------------------------------------------------------------------------------------------------------------
+if (!moving and can_move) {
+	if (input_left) {
+		move_dir = DIR.LEFT;
+		moving = true;
+		can_move = false;
+	}
+	if (input_right) {
+		move_dir = DIR.RIGHT;
+		moving = true;
+		can_move = false;
+	}
+	if (input_up) {
+		move_dir = DIR.UP;
+		moving = true;
+		can_move = false;
+	}
+	if (input_down) {
+		move_dir = DIR.DOWN;
+		moving = true;
+		can_move = false;
+	}
+}
+
+if (moving) {
+	if (move_dir = DIR.LEFT) {
+		x -= spd;
+		if (place_meeting(x - 1, y, obj_wall)) {
+			moving = false;
+			can_move = true;
+		}
+	}
+	else if (move_dir = DIR.RIGHT) {
+		x += spd;
+		if (place_meeting(x + 1, y, obj_wall)) {
+			moving = false;
+			can_move = true;
+		}
+	}
+	else if (move_dir = DIR.UP) {
+		y -= spd;
+		if (place_meeting(x, y - 1, obj_wall)) {
+			moving = false;
+			can_move = true;
+		}
+	}
+	else if (move_dir = DIR.DOWN) {
+		y += spd;
+		if (place_meeting(x, y + 1, obj_wall)) {
+			moving = false;
+			can_move = true;
+		}
+	}
+}
+-----------------------------------------------------------------------------------------------------------
+if (!nomove) {
+	moveX = (input_right - input_left) * spd;
+	moveY = (input_down - input_up) * spd;
+}
+--------------------------------------------------------------------------------------------------------------
+if (place_meeting(x + moveX, y, obj_climb)) { //State Check Climbing
+	repeat abs(moveX) {
+		if (!place_meeting(x + sign(moveX), y, obj_climb)) {
+		x += sign(moveX);
+		} else if (place_meeting(x + sign(moveX), y, obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveX = 0;
+}
+
+if (place_meeting(x, y + moveY, obj_climb)) { //State Check Climbing
+	repeat abs(moveY) {
+		if (!place_meeting(x, y + sign(moveY), obj_climb)) {
+		y += sign(moveY);
+		} else if (place_meeting(x, y + sign(moveY), obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveY = 0;
+}
+----------------------------------------------------------------------------------------------------------------
+if (!input_run) {
+	for (moveY = 0; !fall; moveY += fspd) {
+			fall = true;
+			moveX = 0;
+	}
+} else {
+	fall = false;
+	moveX = (input_right - input_left) * hspd;
+	moveY = (input_down - input_up) * vspd;
+}
+------------------------------------------------------------------------------------------------------------
+if (place_meeting(x, y, obj_climb) and input_run) { //State Check Climb
+	moveX = 0;
+	moveY = 0;
+	state = states.climb;
+} else if (place_meeting(x + moveX, y, obj_climb)) { //State Check Climbing
+	repeat abs(moveX) {
+		if (!place_meeting(x + sign(moveX), y, obj_climb)) {
+		x += sign(moveX);
+		} else if (place_meeting(x + sign(moveX), y, obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveX = 0;
+} else if (place_meeting(x, y + moveY, obj_climb)) { //State Check Climbing
+	repeat abs(moveY) {
+		if (!place_meeting(x, y + sign(moveY), obj_climb)) {
+		y += sign(moveY);
+		} else if (place_meeting(x, y + sign(moveY), obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveY = 0;
+}
+-----------------------------------------------------------------------------------------------------------------
+var bbox_side; //bbox_side = equivalent to sign(moveX) (checks if moving right, else, moving left.
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+//Horizontal Check
+if (moveX != 0) {
+if (place_meeting(x + moveX, y, obj_wall)) {  
+																	
+	repeat abs(moveX) {
+		if (!place_meeting(x + sign(moveX), y, obj_wall)) { 
+			x += sign(moveX);
+			}	else { break; } 
+		}
+			moveX = 0; 
+	}
+}
+
+//Vertical Check
+if (moveY != 0) { 
+if (place_meeting(x, y + moveY, obj_wall)) {  
+
+	repeat abs(moveY) {
+		if (!place_meeting(x, y + sign(moveY), obj_wall)) {
+			y += sign(moveY);
+			}	else { break; }
+		}
+		moveY = 0;
+	}
+}
+
+//Diagonal Check
+if (moveX != 0 and moveY != 0) {
+if (place_meeting(x + moveX, y + moveY, obj_wall)) { 
+											
+	repeat abs(moveX) {
+		if (!place_meeting(x + sign(moveX), y + sign(moveY), obj_wall)) {
+			x += sign(moveX);
+			y += sign(moveY);
+			}	else { break; }
+		}
+			moveX = 0;
+			moveY = 0;
+	}
+}
+
+//Movement Application
+
+x += moveX;
+y += moveY;
+
+//Horizontal Collision (Pixel)
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //changes variables
+
+
+if (tilemap_get_at_pixel(tilemap, bbox_side + moveX, bbox_top)) or (tilemap_get_at_pixel(tilemap, bbox_side + moveX, bbox_bottom))
+{
+	if (moveR) { x = x - (x mod 32) + 31 - (bbox_right - x); } 
+	else { x = x - (x mod 32) - (bbox_left - x); }
+}
+
+
+//our x coord = our x coord - (x mod 32) remainder of mod, + 31 (sets us on edge of grid cell) - (bbox_right - x) (instead of snapping our origin, snap origin - right edge (push left) (snapping calculation)
+
+
+//Vertical Collision (Pixel)
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; } //changes variables
+
+
+if (tilemap_get_at_pixel(tilemap, bbox_left, bbox_side + moveY)) or (tilemap_get_at_pixel(tilemap, bbox_right, bbox_side + moveY))
+{
+	if (moveD) { y = y - (y mod 32) + 31 - (bbox_bottom - y); } 
+	else { y = y - (y mod 32) - (bbox_top - x); }
+}
+------------------------------------------------------------------------------------------------------------------
+//STATE CHECK CLIMB
+if (place_meeting(x, y, obj_climb) and input_run) {
+	moveX = 0;
+	moveY = 0;
+	state = states.climb;
+} else if (place_meeting(x + moveX, y, obj_climb)) { 
+	repeat abs(moveX) {
+		if (!place_meeting(x + sign(moveX), y, obj_climb)) {
+		x += sign(moveX);
+		} else if (place_meeting(x + sign(moveX), y, obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveX = 0;
+} else if (place_meeting(x, y + moveY, obj_climb)) { 
+	repeat abs(moveY) {
+		if (!place_meeting(x, y + sign(moveY), obj_climb)) {
+		y += sign(moveY);
+		} else if (place_meeting(x, y + sign(moveY), obj_climb) and input_run) { state = states.climb; } else { break; }
+	}
+	moveY = 0;
+}
+------------------------------------------------------------------------------------------------------------------
+else if 
+	(tilemap_get_at_pixel(climbmap, bbox_left - x, y)) or (tilemap_get_at_pixel(climbmap, bbox_right - x, y))
+								{ collisioncheck(climbmap); }
+  else if 
+	(tilemap_get_at_pixel(climbmap, x, bbox_top - y )) or (tilemap_get_at_pixel(climbmap, x, bbox_bottom - y ))
+								{ collisioncheck(climbmap); }
+--------------------------------------------------------------------------------------------------------------------------
+switch (tilemap_get_at_pixel(argument0, x, y)) {
+	case moveR:	bbox_side = bbox_right;		if (tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_top))		{ x = x - (x mod 32) + 31 - (bbox_right - x); }		break;
+	case moveL:	bbox_side = bbox_left;		if (tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_bottom))	{ x = x - (x mod 32) - (bbox_left - x); }			break;
+	case moveD:	bbox_side = bbox_bottom;	if (tilemap_get_at_pixel(argument0, bbox_right, bbox_side + moveY))		{ y = y - (y mod 32) + 31 - (bbox_bottom - y); }	break;
+	case moveU:	bbox_side = bbox_top;		if (tilemap_get_at_pixel(argument0, bbox_left, bbox_side + moveY))		{ y = y - (y mod 32) - (bbox_top - y); }			break;
+}
+---------------------------------------------------------------------------------------------------------------------
+///collisioncheck(argument0);
+
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+
+//Horizontal Collision (Pixels)
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //changes variables
+
+
+if (moveX != 0) {
+	if (tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_top)) or (tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_bottom)) {
+
+		if (moveR) { x = x - (x mod 32) + 31 - (bbox_right - x); }
+			 else { x = x - (x mod 32) - (bbox_left - x); }
+
+		moveX = 0;
+	}
+}
+
+
+
+//Movement Application
+x += moveX;
+
+
+
+
+//Vertical Collision (Pixels)
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; } //changes variables
+
+
+if (moveY != 0) {
+	if (tilemap_get_at_pixel(argument0, bbox_left, bbox_side + moveY)) or (tilemap_get_at_pixel(argument0, bbox_right, bbox_side + moveY)) {
+
+		if (moveD) { y = y - (y mod 32) + 31 - (bbox_bottom - y); }
+			  else { y = y - (y mod 32) - (bbox_top - y); }
+
+		moveY = 0;
+	}
+}
+
+
+//Movement Application
+y += moveY;
+
+
+//vibrating right and down input on wall collision  (slow speeds), proper wall collision on climbmap, proper bbox detection on ice slide (slide at bbox not origin), inventory setup and manupulation, 
+---------------------------------------------------------------------------------------------------------------------
+if (tilemap_get_at_pixel(argument0, bbox_side + sign(moveX), bbox_top) != 0) or (tilemap_get_at_pixel(argument0, bbox_side + sign(moveX), bbox_bottom) != 0) and (tilemap_get_at_pixel(argument0, bbox_left, bbox_side + sign(moveY)) != 0) or (tilemap_get_at_pixel(argument0, bbox_right, bbox_side + sign(moveY)) != 0) {
+
+	if (moveD and moveR) { 
+		y = y - (y mod 32) + 31 - (bbox_bottom - y); 
+		x = x - (x mod 32) + 31 - (bbox_right - x); 
+	} else if (moveY < 0 and moveX < 0) { 
+		y = y - (y mod 32) - (bbox_top - y);
+		x = x - (x mod 32) - (bbox_left - x); 
+	}
+	
+	moveX = 0;
+	moveY = 0;
+}
+
+x += moveX;
+y += moveY;
+--------------------------------------------------------------------------------------------------------------------
+if (input_left) { moveX = balance(moveX, -spd, accel); }
+else if (input_right) { moveX = balance(moveX, spd, accel); }
+else { moveX = balance(moveX, 0, decel); }
+
+
+if (input_up) { moveY = balance(moveY, -spd, accel); }
+else if (input_down) { moveY = balance(moveY, spd, accel); }
+else { moveY = balance(moveY, 0, decel); }
+------------------------------------------------------------------------------------------------------------
+frac_moveX = moveX - (floor(abs(moveX)) * sign(moveX));
+moveX -= frac_moveX;
+frac_moveY = moveY - (floor(abs(moveY)) * sign(moveY));
+moveY -= frac_moveY;
+---------------------------------------------------------------------------------------------------------------------
+//Diagonal Speed
+if (moveX > 0 and moveY > 0) { moveX = diag; moveY = diag; }
+else if (moveX < 0 and moveY < 0) { moveX = -diag; moveY = -diag; }
+
+
+
+//Momentum Balance
+
+if (sign(moveX) = -1) { moveX = balL; } else if (sign(moveX) = 1) { moveX = balR; } else { moveX = balX; }
+if (sign(moveY) = -1) { moveY = balU; } else if (sign(moveY) = 1) { moveY = balD; } else { moveY = balY; }
+
+
+
+//------Turnaround/Changing Direction
+
+//X
+
+if (input_left and moveX > 0) { moveX = balance(moveX, 0, lerp(0, moveX, 0.7)); }
+if (input_right and moveX < 0) { moveX = balance(moveX, 0, lerp(0, -moveX, 0.7)); }
+
+
+//Y
+
+if (moveY = -accel and moveY > 0) { moveY = balance(moveY, 0, lerp(0, moveY, 0.7)); }
+if (input_down and moveY < 0) { moveY = balance(moveY, 0, lerp(0, -moveY, 0.7)); }
+
+
+
+//Re-Adding Fractions
+
+moveX += frac_moveX;
+moveY += frac_moveY;
+
+
+
+//Fractional movement
+
+frac_moveX = moveX mod 1;
+moveX -= frac_moveX;
+frac_moveY = moveY mod 1;
+moveY -= frac_moveY;
+-------------------------------------------------------------------------------------------------------------------------
+if (!input_run) {
+	scr_mvars(0.17, 0.4);
+	spd = speeds.fall;
+	moveY += spd;
+	moveX = 0;
+	scr_momentum(false, 0);
+		
+		if (tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + 1) 
+		or (tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + 1))) { 
+			
+			scr_mvars(0.7, 1.4); 
+			spd = speeds.normal; 
+			moveY = 0; 
+			moveX = (input_right - input_left) * spd; 
+			scr_momentum(true, 0.5); 
+			
+	}
+} else {scr_mvars(0.5, 0.1); spd = speeds.climb; moveX = (input_right - input_left) * spd;
+moveY = (input_down - input_up) * spd; scr_momentum(true, 1); }
+----------------------------------------------------------------------------------------------------------------------
+if (!input_run) {
+	if (tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + 1) 
+	or (tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + 1))) {
+	
+			scr_mvars(0.7, 1.4); 
+			spd = speeds.normal; 
+			moveY = 0; 
+			moveX = (input_right - input_left) * spd; 
+			scr_momentum(true, 0.5); 
+			
+	}
+	
+			scr_mvars(0.17, 0.4); 
+			spd = speeds.fall; 
+			moveY += spd; 
+			moveX = 0; 
+			scr_momentum(false, 0); 	
+		
+}	else { 
+
+			scr_mvars(0.5, 0.1); 
+			spd = speeds.climb; 
+			moveX = (input_right - input_left) * spd;
+			moveY = (input_down - input_up) * spd; 
+			scr_momentum(true, 1); 
+					
+}
+-----------------------------------------------------------------------------------------------------------------------
+if (!input_run) {
+	scr_mvars(0.17, 0.4); 
+	spd = speeds.fall; 
+	moveY += spd; 
+	moveX = 0; 
+	scr_momentum(false, 0); 
+	
+      if (tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + 1) 
+		 or (tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + 1))) 
+		 { 	
+			scr_mvars(0.7, 1.4); 
+			spd = speeds.normal; 
+			moveY = 0; 
+			moveX = (input_right - input_left) * spd; 
+			scr_momentum(true, 0.5); 
+		}
+}	else {		scr_mvars(0.5, 0.1); spd = speeds.climb; moveX = (input_right - input_left) * spd;
+					moveY = (input_down - input_up) * spd; scr_momentum(true, 1); }
+------------------------------------------------------------------------------------------------------------------------
+if (tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + 1) 
+		 or (tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + 1)))  {
+
+
+      if (!input_run) 
+		 { 	
+		 
+			scr_mvars(0.17, 0.4); 
+	spd = speeds.fall; 
+	moveY += spd; 
+	moveX = 0; 
+	scr_momentum(false, 0); 
+			
+		}
+	
+						scr_mvars(0.7, 1.4); 
+			spd = speeds.normal; 
+			moveY = 0; 
+			moveX = (input_right - input_left) * spd; 
+			scr_momentum(true, 0.5); 
+
+	
+}	else {		scr_mvars(0.5, 0.1); spd = speeds.climb; moveX = (input_right - input_left) * spd;
+					moveY = (input_down - input_up) * spd; scr_momentum(true, 1); }
+------------------------------------------------------------------------------------------------------------------------
+scr_getinputs();
+scr_mvars(0.7, 1.4);
+
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+var bbox_side;
+
+
+//Adding More Speed
+
+if (input_run) { spd = speeds.run; }
+else		   { spd = speeds.normal; }
+
+
+
+//Movement Intention
+
+moveX = (input_right - input_left) * 0.2;
+moveY = (input_down - input_up) * 0.2;
+
+
+
+//Diagonal Speed Set
+
+scr_diagonal();
+
+
+
+//Momentum
+
+scr_momentum(true, 0.4);
+
+
+
+//Fractional Movement Fix
+
+scr_fractional();
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom);
+var p2X = tilemap_get_at_pixel(climbmap, bbox_left - 1, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + 1, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left - 1, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + 1, bbox_bottom);
+var p2Y = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top -1) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_top - 1) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + 1) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + 1);
+
+
+//STATE CHECK ICE
+if (tilemap_get_at_pixel(icemap, x, y)) {
+	moveX = 0;
+	moveY = 0;
+	state = states.ice;
+}
+
+
+//STATE CHECK CLIMB
+if (input_run) {
+	if (p1) {
+		moveX = 0;
+		moveY = 0;
+		state = states.climb;
+	}
+} else if (!input_run) {
+	
+	if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; }
+	
+	if (p2X) { 
+		
+	}
+}
+
+
+
+//STATE CHECK SWIM
+/*if (place_meeting(x, y, obj_swim)) {
+	moveX = 0;
+	moveY = 0;
+	state = states.swim;
+}*/
+
+
+
+collisioncheck(wallmap);
+---------------------------------------------------------------------------------------------------------------------
+if (pMX) {
+	if (input_run) {
+		if (p2X) {
+			moveX = 0;
+			state = states.climb;
+		}
+	} else { if (p2XX) { moveX = 0; collisioncheck(climbmap); } }
+}
+
+if (pMY) {
+	if (input_run) {
+		if (p2Y) {
+			moveY = 0;
+			state = states.climb;
+		}
+	} else { if (p2YY) { moveY = 0; collisioncheck(climbmap); } }
+}
+----------------------------------------------------------------------------------------------------------------------------
+if (tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_bottom)) {
+	if (input_run) {
+		if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom)) {
+			moveX = 0; state = states.climb;
+		}
+	} else { if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom)) { moveX = 0; } else { x += sign(moveX); } }
+}
+
+
+if (pMY) {
+	if (input_run) {
+		if (p2Y) {
+			moveY = 0; state = states.climb;
+		}
+	} else { if (!pSMY) { y += sign(moveY); } else { moveY = 0; } }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+!tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) or !tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) or !tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) or !tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom)
+
+
+((tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) = 0) or (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) = 0) or (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) = 0) or (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom) = 0))
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+if (tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_top)) {
+	if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) and input_run) {
+			if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom)) { //-----------------------------------------------------original collision check doesnt check if we're colliding with bbox, it checks if we're about to collide with + moveX, then checks if (moveR) or else (left)
+				moveX = 0; state = states.climb;
+		}
+	} else if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) and !input_run) { if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top)) { collisioncheck(climbmap); //or if (moveR) {  } } }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) and input_run) {
+	moveX = 0;
+	moveY = 0;
+	state = states.climb;
+} else if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) and !input_run) { collisioncheck(climbmap); }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+if (edge1 or edge2) {
+	collisioncheck(climbmap);
+} else if (input_run and edge1 or edge2) { if (!tilemap_get_at_pixel(climbmap, bbox_edge + sign(moveX), bbox_left) or !tilemap_get_at_pixel(climbmap, bbox_edge + sign(moveX), bbox_right)) { x += sign(moveX); } else { if (moveRR) { moveX = 0; state = states.climb; } } }
+-----------------------------------------------------------------------------------------------------------------------
+if (edge3 or edge4) { //might collide with collisioncheck if statements (essentially the same) (maybe change distance?)
+	if (!input_run) {
+		collisioncheck(climbmap);
+	}
+}
+-----------------------------------------------------------------------------------------------------------------------
+if (!input_run) {
+	collisioncheck(climbmap); //-------------may have to repeat this if (inch forward) (below code)
+} else if (input_run and edge3 or edge4) { if (!tilemap_get_at_pixel(climbmap, bbox_left, bbox_edge + sign(moveY)) or !tilemap_get_at_pixel(climbmap, bbox_right, bbox_edge + sign(moveY))) { y += sign(moveY); } else { if (moveDD) { moveY = 0; state = states.climb; } } }
+-------------------------------------------------------------------------------------------------------------------------------
+if (edge3 or edge4) {
+	
+	if (input_run) {
+		if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_edge + sign(moveY)) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_edge + sign(moveY))) { if (moveDD or moveY < 0) { moveY = 0; state = states.climb; } }
+	}
+	collisioncheck(climbmap);
+}
+----------------------------------------------------------------------------------------------------------------------
+/*
+if (tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_bottom)) {
+	if (input_run) {
+		if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom)) {
+			moveX = 0; state = states.climb;
+		}
+	} else { if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom)) { moveX = 0; }  }
+	moveX = 0;
+}
+
+	if (input_run) {
+		if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom)) {
+			moveY = 0; state = states.climb;
+		}
+	} else { if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveY), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + sign(moveY), bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveY), bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + sign(moveY), bbox_bottom)) { moveY = 0; } else { y += sign(moveY); } }
+*/
+
+/*
+if (tilemap_get_at_pixel(climbmap, bbox_left + moveX + 1, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_left + moveX + 1, bbox_bottom) or tilemap_get_at_pixel(climbmap, bbox_right + moveX + 1, bbox_top) or tilemap_get_at_pixel(climbmap, bbox_right + moveX + 1, bbox_bottom)) {
+	
+	repeat abs(moveX) {
+		if (!tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) or !tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) or !tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) or !tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom)) {
+			x += sign(moveX);
+		} else { break; }
+	}
+	moveX = 0;
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + moveY + 2) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + moveY + 2) or tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + moveY + 2) or tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + moveY + 2)) {
+	
+	repeat abs(moveY) {
+		if (!tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY)) or !tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY)) or !tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY)) or !tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY))) {
+			y += sign(moveY);
+		} else { break; }
+	}
+	moveY = 0;
+}
+*/
+-----------------------------------------------------------------------------------------------------------------------
+var xedge1 = tilemap_get_at_pixel(climbmap, bbox_edge, bbox_top); 
+var xedge2 = tilemap_get_at_pixel(climbmap, bbox_edge, bbox_bottom);
+
+var yedge1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_edge);
+var yedge2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_edge);
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+var bbox_edge;
+
+var moveRR = moveX > 0;
+var moveDD = moveY > 0;
+
+
+if (moveRR) { bbox_edge = bbox_right; } else { bbox_edge = bbox_left; }
+
+var xedge1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top); 
+var xedge2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom);
+var xedge3 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top);
+var xedge4 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom);
+
+
+/* have to fix the collision for it to work
+if (!input_run and edge1 xor edge2 xor edge3 xor edge4) { spd = speeds.fall; moveX = 0; moveY += spd;  } else if (input_run xor edge1 xor edge2 xor edge3 xor edge4) { spd = speeds.climb;  }
+do moveY +=
+*/
+if (input_run and edge1 and edge2) {
+	moveX = 0;
+	state = states.climb;
+} else { collisioncheck(climbmap); }
+
+
+
+//if still in state.climb, dont activate state swap to normal.
+
+
+if (moveDD) { bbox_edge = bbox_bottom; } else { bbox_edge = bbox_top; }
+
+var yedge1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top);
+var yedge2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom);
+var yedge3 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom);
+var yedge4 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top);
+
+
+
+if (input_run and edge3 and edge4) {
+	moveY = 0;
+	state = states.climb;
+} else { collisioncheck(climbmap); }
+
+---------------------------------------------------------------------------------------------------------------------
+if (input_run and xedge1 or xedge2) {
+		state = states.climb;
+	if (input_run) {
+		
+	}
+}
+-----------------------------------------------------------------------------------------------------------------------
+var bbox_edge;
+
+var moveRR = moveX > 0;
+var moveDD = moveY > 0;
+
+
+if (moveRR) { bbox_edge = bbox_right; } else { bbox_edge = bbox_left; }
+
+var xedge1 = tilemap_get_at_pixel(climbmap, bbox_edge, bbox_top + moveX); 
+var xedge2 = tilemap_get_at_pixel(climbmap, bbox_edge, bbox_bottom + moveX);
+var xedge3 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top);
+var xedge4 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom);
+
+
+/* have to fix the collision for it to work
+if (!input_run and edge1 xor edge2 xor edge3 xor edge4) { spd = speeds.fall; moveX = 0; moveY += spd;  } else if (input_run xor edge1 xor edge2 xor edge3 xor edge4) { spd = speeds.climb;  }
+do moveY +=
+*/
+
+/*
+if (input_run and xedge1 or xedge2 or xedge3 or xedge4) {
+	moveX = 0;
+	state = states.climb;
+} else { collisioncheck(climbmap); }
+
+if (input_run and xedge1 and xedge2 and xedge3 and xedge4) {
+	state = states.climb;
+	if (input_run and xedge1 or xedge2 or xedge3 or xedge4) { spd = speeds.climb; } else if (!input_run and xedge1 xor xedge2 xor xedge3 xor xedge4) {  }
+}
+
+//might have to change "xedge" var to bbox_side, etc. to check two sides in one var.
+
+
+if (xedge1 or xedge2 or xedge3 or xedge4) { //any edge is sticking in at anytime
+	if (input_run) {
+		
+	} else {  }
+} else if (xedge1 and xedge2 and xedge3 and xedge4) { //the obj is FULLY in
+	if (input_run) {
+		state = states.climb;
+	} else { collisioncheck(climbmap); }
+}
+*/
+
+/*
+if (xedge1 or xedge2) {
+	if (input_run) {
+		state = states.climb;
+	} else { collisioncheck(climbmap); }
+}
+*/
+
+
+//if still in state.climb, dont activate state swap to normal.
+
+/*
+if (moveDD) { bbox_edge = bbox_bottom; } else { bbox_edge = bbox_top; }
+
+var yedge1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top);
+var yedge2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom);
+var yedge3 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom);
+var yedge4 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top);
+*/
+-------------------------------------------------------------------------------------------------------------------------
+///@description Move first then collide.
+
+//vars
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+x += moveX;
+
+#region Horizontal Collision
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //set bbox
+
+var p1 = tilemap_get_at_pixel(argument0, bbox_side, bbox_top) & tile_index_mask; //check if tile blob and remove flips, etc.
+var p2 = tilemap_get_at_pixel(argument0, bbox_side, bbox_bottom) & tile_index_mask;
+var p3 = tilemap_get_at_pixel(argument0, bbox_side + sprite_width/2, bbox_top) & tile_index_mask;
+
+if (p1 != 0 || p2 != 0) { //check for pixel info, and if it returns NOT equal to zero (meaning it returns real)
+	if (moveR) { x = ((bbox_right & ~31) - 1) - right_bbox; } //if moving right
+	else	   { x = ((bbox_left + 32) & ~31) - left_bbox; } //left
+}
+#endregion
+
+y += moveY; 
+
+#region Vertical Collision
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+
+var p1 = tilemap_get_at_pixel(argument0, bbox_left, bbox_side) & tile_index_mask;
+p2 = tilemap_get_at_pixel(argument0, bbox_right, bbox_side) & tile_index_mask;
+p3 = tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 4) & tile_index_mask;//right sides
+p4 = tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height - 8) & tile_index_mask;
+p5 = tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2) & tile_index_mask;
+p6 = tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 4) & tile_index_mask; //left sides
+p7 = tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height - 8) & tile_index_mask;
+p8 = tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2) & tile_index_mask;
+
+if (p1 != 0 
+	|| 
+	p2 != 0
+	||
+	p3 != 0
+	||
+	p4 != 0
+	||
+	p5 != 0
+	||
+	p6 =! 0
+	||
+	p7 =! 0
+	||
+	p8 =! 0) {
+	
+	if (moveD) { y = ((bbox_bottom & ~31) - 1) - bottom_bbox; } 
+	else	   { y = ((bbox_top + 32) & ~31) - top_bbox; }
+	
+}
+#endregion
+---------------------------------------------
+///@description Move first then collide.
+
+//vars
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+if (argument0 = Swallmap) { sprite_set_bbox(sprite_index, 8, 8, 23, 23); }
+
+//x += moveX;
+
+#region Horizontal Collision
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //set bbox
+
+#region Tile Meeting X
+var meetingX = tilemap_get_at_pixel(argument0, bbox_side, bbox_top) //check if tile blob and remove flips, etc.
+||
+tilemap_get_at_pixel(argument0, bbox_side, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top) & tile_index_mask;
+#endregion
+
+if (meetingX != 0) { //check for pixel info, and if it returns NOT equal to zero (meaning it returns real)
+	if (moveR) { x = (((x + 8) & ~15) - 1); } //if moving right
+	else	   { x = (((x - 8) + 16) & ~15); } //left
+}
+#endregion
+
+//y += moveY;
+
+#region Vertical Collision
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+
+#region Tile Meeting Y
+var meetingY = tilemap_get_at_pixel(argument0, bbox_left, bbox_side) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_side) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2) & tile_index_mask;
+#endregion
+
+if (meetingY != 0) {
+	if (moveD) { y = (((y + 8) & ~15) - 1) - ((x + 8) - x); }
+	else	   { y = (((y - 8) + 16) & ~15); }
+}
+#endregion
+-------------------------------------
+	if (moveD) { y = (((y + 8) & ~15) - 1) - ((y + 8) - y); }
+	else	   { y = (((y - 8) + 16) & ~15) - ((y - 8) - y); }
+------------------------------------------
+///@description Move first then collide.
+
+//vars
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+
+
+//x += moveX;
+
+#region Horizontal Collision
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //set bbox
+
+#region Tile Meeting X
+var meetingX = tilemap_get_at_pixel(argument0, bbox_side, bbox_top) //check if tile blob and remove flips, etc.
+||
+tilemap_get_at_pixel(argument0, bbox_side, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2) & tile_index_mask;
+#endregion
+
+if (meetingX != 0) { //check for pixel info, and if it returns NOT equal to zero (meaning it returns real)
+	var new_spr = sprite_duplicate(sprite_index);
+	sprite_collision_mask(new_spr, false, 2, 8, 8, 23, 23, bboxkind_rectangular, 255);
+	draw_sprite_part(new_spr, 0, 8, 8, 16, 16, 8, 8);
+	if (moveR) { x = ((sprite_get_bbox_right(new_spr) & ~15) - 1) - (sprite_get_bbox_right(new_spr) - x); } //if moving right
+	else	   { x = ((sprite_get_bbox_left(new_spr) + 16) & ~15) - (sprite_get_bbox_left(new_spr) - x); } //left
+	sprite_delete(new_spr);
+}
+#endregion
+
+//y += moveY;
+
+#region Vertical Collision
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+
+#region Tile Meeting Y
+var meetingY = tilemap_get_at_pixel(argument0, bbox_left, bbox_side) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_side) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom) & tile_index_mask;
+#endregion
+
+if (meetingY != 0) {
+	var new_spr = sprite_duplicate(sprite_index);
+	sprite_collision_mask(new_spr, false, 2, 8, 8, 23, 23, bboxkind_rectangular, 255);
+	draw_sprite_part(new_spr, 0, 8, 8, 16, 16, 8, 8);
+	if (moveD) { y = ((sprite_get_bbox_bottom(new_spr) & ~15) - 1) - (sprite_get_bbox_bottom(new_spr) - y); }
+	else	   { y = ((sprite_get_bbox_top(new_spr) + 16) & ~15) - (sprite_get_bbox_top(new_spr) - y); }
+	sprite_delete(new_spr);
+}
+#endregion
+--------------------------------------------------------------------------------------------------------------------
+///@description Move first then collide.
+
+//vars
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+var TL = sprite_set_bbox(sprite_index, 0, 0, 15, 15);
+var BL = sprite_set_bbox(sprite_index, 15, 0, 15, 31);
+var TR = sprite_set_bbox(sprite_index, 16, 0, 31, 15);
+var BR = sprite_set_bbox(sprite_index, 16, 16, 31, 31);
+
+//x += moveX;
+
+#region Horizontal Collision
+//if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //set bbox
+
+#region Tile Meeting X
+
+var meetingX = tilemap_get_at_pixel(argument0, bbox_left, bbox_top) & tile_index_mask //check if tile blob and remove flips, etc.
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2) & tile_index_mask //half points (16x16)
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top) & tile_index_mask //half points (16x16)
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom) & tile_index_mask;
+
+#endregion
+
+if (meetingX != 0) { //check for pixel info, and if it returns NOT equal to zero (meaning it returns real)
+	if (moveR) { x = ((bbox_right & ~15) - 1) - (bbox_right - x); } //if moving right
+	else	   { x = ((bbox_left + 16) & ~15) - (bbox_left - x); } //left
+}
+
+
+
+
+
+#endregion
+/*
+//y += moveY;
+
+#region Vertical Collision
+
+//if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+
+#region Tile Meeting Y
+
+var meetingY = tilemap_get_at_pixel(argument0, bbox_left, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top) & tile_index_mask //half points (16x16)
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom) & tile_index_mask;
+
+#endregion
+
+if (meetingY != 0) {
+	if (moveD) { y = ((bbox_bottom & ~15) - 1) - (bbox_bottom - y); }
+	else	   { y = ((bbox_top + 16) & ~15) - (bbox_top - y); }
+}
+
+#endregion
+----------------------------------------------------------------------------------------------------
+///@description Move first then collide.
+
+//vars
+var bbox_side;
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+var TL = sprite_set_bbox(sprite_index, 0, 0, 15, 15);
+var BL = sprite_set_bbox(sprite_index, 15, 0, 15, 31);
+var TR = sprite_set_bbox(sprite_index, 16, 0, 31, 15);
+var BR = sprite_set_bbox(sprite_index, 16, 16, 31, 31);
+
+//x += moveX;
+
+//#region Horizontal Collision
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //set bbox
+
+
+//#region Tile Meeting X
+
+var meetingX = tilemap_get_at_pixel(argument0, bbox_left, bbox_top) & tile_index_mask //check if tile blob and remove flips, etc.
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2) & tile_index_mask //half points (16x16)
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2) & tile_index_mask;
+
+	//#endregion
+	
+if (meetingX != 0) { 
+	if (moveR) { x = ((bbox_right & ~15) - 1) - (bbox_right - x); } 
+	else	   { x = ((bbox_left + 16) & ~15) - (bbox_left - x); } 
+}
+
+
+#endregion
+
+
+//y += moveY;
+
+#region Vertical Collision
+
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+
+
+#region Tile Meeting Y
+
+var meetingY = tilemap_get_at_pixel(argument0, bbox_left, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_bottom) & tile_index_mask
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top) & tile_index_mask //half points (16x16)
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom) & tile_index_mask;
+
+	#endregion
+if (meetingY != 0) {
+	if (moveD) { y = ((bbox_bottom & ~15) - 1) - (bbox_bottom - y); }
+	else	   { y = ((bbox_top + 16) & ~15) - (bbox_top - y); }
+}
+
+
+#endregion
+*/
+
+if (meetingX != 0) {
+	if (moveX != 0) {
+		if (moveR) { x = ((bbox_right & ~15) - 1) - (bbox_right - x); } 
+	else	   { x = ((bbox_left + 16) & ~15) - (bbox_left - x); } 
+	}
+	
+	if (moveY != 0) {
+		if (moveD) { y = ((bbox_bottom & ~15) - 1) - (bbox_bottom - y); }
+	else	   { y = ((bbox_top + 16) & ~15) - (bbox_top - y); }
+	}
+}
+--------------------------------------------------------------------------
+var TL32 = tilemap_get_at_pixel(wallmap, bbox_left, bbox_top - moveY);
+var TR32 = tilemap_get_at_pixel(wallmap, bbox_right, bbox_top);
+var BL32 = tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom);
+var BR32 = tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom);
+
+var TL16 = tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_top);
+var TR16 = tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_top - moveY);
+var BL16 = tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_bottom);
+var BR16 = tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_bottom);
+--------------------------------------------------------------------------------
+///@param tile_map
+
+var bbox_side;
+
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+
+//Horizontal Collision (Pixels)
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; } //changes variables
+
+
+var meetingX = tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_top)
+||
+tilemap_get_at_pixel(argument0, bbox_side + moveX, bbox_bottom)
+||
+tilemap_get_at_pixel(argument0, bbox_left, bbox_top + sprite_height / 2)
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_top + sprite_height / 2);
+
+
+
+if (meetingX != 0) { //we use 2 statements to check because saying ONLY "y", would give us the y-pos of the ORIGIN. so we'd have to say bbox_bottom/top to compensate.
+
+	if (moveR) { x = (x - 8) - ((x - 8) mod 16) + 15 - ((x - 8) - x); }
+		  else { x = (x + 8) - ((x + 8) mod 16) - ((x + 8) - x); }
+
+}
+
+/*
+if (argument0 == wallmap) {
+//Movement Application
+x += moveX;
+}
+*/
+
+//Vertical Collision (Pixels)
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; } //changes variables
+
+
+var meetingY = tilemap_get_at_pixel(argument0, bbox_left, bbox_side + moveY)
+||
+tilemap_get_at_pixel(argument0, bbox_right, bbox_side + moveY)
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_top)
+||
+tilemap_get_at_pixel(argument0, bbox_left + sprite_width / 2, bbox_bottom);
+
+if (meetingY != 0) {
+
+	if (moveD) { y = (y - 8) - ((y - 8) mod 16) + 15 - ((y - 8) - y); }
+		  else { y = (y + 8) - ((y + 8) mod 16) - ((y + 8) - y); }
+
+}
+
+/*
+if (argument0 == wallmap) {
+//Movement Application
+y += moveY;
+}
+*/
+--------------------------------------------------------------------
+if (moveD) { bbox_side = bbox_bottom; } else { bbox_side = bbox_top; }
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_top) & tile_index_mask;
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_side) & tile_index_mask;
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_bottom) & tile_index_mask;
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_side) & tile_index_mask;
+
+if (!input_run) {
+	if (TR32 || BR32) {
+		if (moveD) { y = ((bbox_bottom & ~31) - 1) - bottom_bbox; } 
+	else	   { y = ((bbox_top + 32) & ~31) - top_bbox; } 
+	}
+} else { spd = speeds.fall; moveY = spd; moveX = 0; }
+------------------------------------------------------------------------------
+#region Climbing
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; }
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_top) & tile_index_mask;
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) & tile_index_mask;
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_bottom) & tile_index_mask;
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) & tile_index_mask;
+
+if (!input_run) {
+	if (TL32 || BL32) {
+		if (moveR) { x = ((bbox_right & ~31) - 1) - right_bbox; } 
+	else	   { x = ((bbox_left + 32) & ~31) - left_bbox; } 
+	}
+} else { spd = speeds.fall; moveY = spd; moveX = 0; }
+
+#endregion
+---------------------------------------------------------------------
+#region Climbing
+if (moveR) { bbox_side = bbox_right; } else { bbox_side = bbox_left; }
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_top) & tile_index_mask;
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) & tile_index_mask;
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_side, bbox_bottom) & tile_index_mask;
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) & tile_index_mask;
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_side + sign(moveX), bbox_top); 
+var p2 = tilemap_get_at_pixel(climbmap, bbox_side + sign(moveX), bbox_bottom); 
+
+if (TL32 && BL32) { moveX = 0; state = states.climb; } 
+
+if (p1 or p2) { 
+	if (!input_run) { if (moveR) { x = ((bbox_right & ~31) - 1) - right_bbox; } 
+		else	   { x = ((bbox_left + 32) & ~31) - left_bbox; }  } 
+} else if (TL32 or BL32) { 
+	if (input_run) { 
+		spd = speeds.climb; moveX = (input_right - input_left) * spd; 
+	} else { spd = speeds.fall; moveX = spd; } 
+} 
+
+
+
+#endregion
+----------------------------------------------------------------------------------
+if ((pixelX or pixelY) and input_run) { 
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_left + sign(moveX), bbox_top);
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_left + sign(moveX), bbox_bottom);
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_right + sign(moveX), bbox_top);
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_right + sign(moveX), bbox_bottom);
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_left, bbox_top + sign(moveY)); 
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_left, bbox_bottom + sign(moveY));
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_right, bbox_top + sign(moveY));
+	tilemap_set_at_pixel(climbmap, climbmap, bbox_right, bbox_bottom + sign(moveY));
+	} else { 
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_left + sign(moveX), bbox_top);
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_left + sign(moveX), bbox_bottom);
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_right + sign(moveX), bbox_top);
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_right + sign(moveX), bbox_bottom);
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_left, bbox_top + sign(moveY));
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_left, bbox_bottom + sign(moveY));
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_right, bbox_top + sign(moveY));
+	tilemap_set_at_pixel(climbmap, wallmap, bbox_right, bbox_bottom + sign(moveY));
+	
+}
+-------------------------------------------------------------------------------------------
+var pixelX = tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top)
+||
+tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom)
+||
+tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top)
+||
+tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom);
+
+var pixelY = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY))
+||
+tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY))
+||
+tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY))
+||
+tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY));
+-------------------------------------------------------------------------------------------
+#region Climbing Y
+
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) & tile_index_mask;
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) & tile_index_mask;
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) & tile_index_mask;
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) & tile_index_mask;
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY));
+var p2 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY));
+var p3 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY));
+var p4 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY));
+
+var p5 = tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top);
+var p6 = tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom);
+var p7 = tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top);
+var p8 = tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom);
+
+if (((!TL32 | !TR32) and (!BL32 | !BR32)) or ((TL32 | TR32) xor (BL32 | BR32))) { state = states.normal; 
+
+/*
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY)) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_top + sign(moveY)); } else if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY)) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_top + sign(moveY)); }
+if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY)) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_right, bbox_top + sign(moveY)); } else if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY)) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_right, bbox_top + sign(moveY)); }
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY)) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_bottom + sign(moveY)); } else if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY)) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_bottom + sign(moveY)); }
+if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY)) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_right, bbox_bottom + sign(moveY)); } else if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY)) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_bottom, bbox_bottom + sign(moveY)); }
+
+if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_top); } else if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_top); }
+if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_top); } else if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_top); }
+if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_bottom); } else if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_bottom); }
+if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom) and !input_run) { var pset = tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_bottom); } else if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom) and input_run) { tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_bottom); }
+*/
+
+
+
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + (sign(moveY)))) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_left, bbox_top + (sign(moveY))); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_top + (sign(moveY))); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + (sign(moveY)))) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_left, bbox_bottom + (sign(moveY))); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_left, bbox_bottom + (sign(moveY))); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + (sign(moveY)))) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_right, bbox_top + (sign(moveY))); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_right, bbox_top + (sign(moveY))); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + (sign(moveY)))) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_right, bbox_bottom + (sign(moveY))); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_right, bbox_bottom + (sign(moveY))); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top)) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_left + sign(moveX), bbox_top); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_top); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom)) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_left + sign(moveX), bbox_bottom); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_left + sign(moveX), bbox_bottom); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top)) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_right + sign(moveX), bbox_top); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_top); }
+}
+
+if (tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom)) {
+	if (input_run) { var empt = tile_set_empty(wallmap); tilemap_set_at_pixel(wallmap, empt, bbox_right + sign(moveX), bbox_bottom); }
+	else { tilemap_set_at_pixel(wallmap, wallmap, bbox_right + sign(moveX), bbox_bottom); }
+}
+}
+
+
+
+
+else if ((TL32 | TR32) or (BL32 | BR32)) { 
+	if (input_run) { //YES INPUT_RUN
+		spd = speeds.climb; moveX = (input_right - input_left) * spd; moveY = (input_down - input_up) * spd; 
+	} else { //NO INPUT_RUN
+		if (meeting) { //NO INPUT_RUN AND MEETING EDGE/BOTTOM
+			moveY = 0; spd = speeds.normal; moveX = (input_right - input_left) * spd; 
+		} else { //NO INPUT_RUN AND NO EDGE/BOTTOM 
+			spd = speeds.fall; moveY = spd; moveX = 0; 
+				if (moveY > 1 and input_up) { //HOLDING UP WHILE FALLING
+					spd = speeds.climb; moveY = spd; moveX = (input_right - input_left) * spd; 
+			} 
+		} 
+	} 
+} else if ((TL32 | TR32) and (BL32 | BR32)) { moveX = 0; moveY = 0; state = states.climb; } 
+
+#endregion 
+
+---------------------------------------------------------------
+#region Climbing Y
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_side) & tile_index_mask;
+var p2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_side) & tile_index_mask;
+
+if (tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) and !tilemap_get_at_pixel(climbmap, bbox_left + 1, bbox_top + 1)) { 
+
+		if (moveD) { y = ((bbox_bottom & ~31) - 1) - bottom_bbox; } 
+		else	   { y = ((bbox_top + 32) & ~31) - top_bbox; } 
+
+}
+#endregion
+--------------------------------------------------------------------
+#region Climbing 
+
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) & tile_index_mask; 
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) & tile_index_mask; 
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) & tile_index_mask; 
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) & tile_index_mask; 
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + sign(moveY)) | tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + sign(moveY)) | tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + sign(moveY)) | tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + sign(moveY));
+var pL = tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_top) | tilemap_get_at_pixel(climbmap, bbox_left + sign(moveX), bbox_bottom) 
+var pR = tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_top) | tilemap_get_at_pixel(climbmap, bbox_right + sign(moveX), bbox_bottom);
+
+var p3 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top + moveY) | tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom + moveY) | tilemap_get_at_pixel(climbmap, bbox_right, bbox_top + moveY) | tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom + moveY);
+var p4 = tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_top) | tilemap_get_at_pixel(climbmap, bbox_left + moveX, bbox_bottom) | tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_top) | tilemap_get_at_pixel(climbmap, bbox_right + moveX, bbox_bottom);
+
+var moveR = moveX > 0;
+var moveD = moveY > 0;
+
+if ((!TL32 | !TR32) and (!BL32 | !BR32)) {
+	state = states.normal;
+	if (pR) {
+		instance_create_layer(x + 32, y, inst, obj_climb);
+	} else if (pL) {
+		instance_create_layer(x - 32, y, inst, obj_climb);
+	} else { instance_destroy(obj_climb); }
+		if (input_run) {
+			instance_destroy(obj_climb);
+		} else { bar = true; }
+}
+
+
+if (((TL32 | TR32) xor (BL32 | BR32)) or ((TL32 | TR32) and (BL32 | BR32))) { 
+	if (input_run) { spd = speeds.climb; } 
+	else { 
+		spd = speeds.fall; moveX = 0; moveY = spd; 
+		if (meeting) { spd = speeds.normal; moveY = 0; moveX = (input_right - input_left) * spd; } 
+		if (moveY > speeds.climb and input_up) { spd = speeds.climb; moveX = (input_right - input_left) * spd; } 
+	} 
+} 
+
+
+#endregion 
+------------------------------------------------------------
+scr_getinputs();
+
+var meeting = tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + 1)
+||
+tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + 1)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_bottom + 1)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_bottom + 1);
+
+
+
+
+if (input_run) {											//Climbing
+
+			scr_mvars(0.5, 0.1); 
+			spd = speeds.climb; 
+			moveX = (input_right - input_left) * spd; 
+			moveY = (input_down - input_up) * spd; 
+			scr_momentum(true, 1); 
+		
+	}
+
+else if (meeting) {							//Scaffold
+
+			scr_mvars(1, 1.5); 
+			if (input_run) { spd = speeds.run; }
+			else		   { spd = speeds.normal; }
+			moveX = (input_right - input_left) * spd; 
+			moveY = 0; 
+			scr_momentum(true, 0.6); 
+
+	} 
+
+else {														//Falling
+
+			scr_mvars(0.17, 0.4); 
+			spd = speeds.fall; 
+			moveX = 0; 
+			moveY = spd; 
+			scr_momentum(false, 0); 
+
+}
+
+
+
+//Check State
+
+var TL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_top) & tile_index_mask;
+var TR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_top) & tile_index_mask;
+var BL32 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_bottom) & tile_index_mask;
+var BR32 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_bottom) & tile_index_mask;
+
+if (((TL32 | BL32) xor (TR32 | BR32))) {
+	moveX = 0;
+	state = states.normal;
+}
+
+if (((TL32 | TR32) xor (BL32 | BR32))) {
+	moveY = 0;
+	state = states.normal;
+}
+
+
+
+
+scr_fractional();
+
+
+
+scr_player_wall(wallmap, S_wallmap);
+----------------------------------------------------------------------------
+
+	if (place_meeting(x, y, obj_climb)) {
+		if (input_run) {
+			spd = speeds.climb;
+		} else {
+			spd = speeds.fall; moveY = spd;
+			if (meeting) { spd = speeds.normal; moveY = 0; moveX = (input_right - input_left) * spd; }
+			if (moveY > speeds.climb and input_up) { spd = speeds.climb; moveX = (input_right - input_left) * spd; }
+		}
+	}
+
+if (place_meeting(x, y, obj_climb)) {
+	if (input_run) { moveX = 0; moveY = 0; state = states.climb; }
+	else { bar = true; }
+}
+----------------------------------------------------------------------
+if (bar == true) {
+	if (place_meeting(x, y + moveY, obj_climb)) {
+		while (!place_meeting(x, y + sign(moveY), obj_climb)) {
+			y += sign(moveY);
+		}
+		moveY = 0;
+	}
+}
+-------------------------------------------------------------
+#region Climbing
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_side) & tile_index_mask;
+var p2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_side) & tile_index_mask;
+
+if (p1 != 0 || p2 != 0) { 
+	if (moveD) { y = ((bbox_bottom & ~31) - 1) - bottom_bbox; } 
+	else	   { y = ((bbox_top + 32) & ~31) - top_bbox; } 
+} 
+
+#endregion
+--------------------------------------------------------------
+#region Climbing
+
+var p1 = tilemap_get_at_pixel(climbmap, bbox_left, bbox_side) & tile_index_mask;
+var p2 = tilemap_get_at_pixel(climbmap, bbox_right, bbox_side) & tile_index_mask;
+
+if (p1 != 0 || p2 != 0) { 
+	if (moveD) { y = ((bbox_bottom & ~31) - 1) - bottom_bbox; } 
+	else	   { y = ((bbox_top + 32) & ~31) - top_bbox; } 
+} 
+
+#endregion
+-------------------------------------------------------------------
+if (((TL32 | BL32) xor (TR32 | BR32))) {
+	moveX = 0;
+	state = states.normal;
+}
+
+if (((TL32 | TR32) xor (BL32 | BR32))) {
+	moveY = 0;
+	state = states.normal;
+}
+----------------------------------------------------------------------
+(((!TL32 | !TR32) and (!BL32 | !BR32)) or ((!TL32 | !BL32) and (!TR32 | !BR32)))
+----------------------------------------
+scr_getinputs(); //input keys/variables
+
+
+//variables
+spd = speeds.ice;
+
+var nomove = false; //if = true, can move
+var sliding = false; //if = true can't move
+
+
+
+//Checking direction/for loop to activate
+var dir_left = moveX < 0;
+var dir_right = moveX > 0;
+var dir_up = moveY < 0;
+var dir_down = moveY > 0;
+
+
+
+//Checking if there is NO WALL (when there is a wall, for loop stops)
+var nowallcheck_left = !tilemap_get_at_pixel(wallmap, x - 1, y);
+var nowallcheck_right = !tilemap_get_at_pixel(wallmap, x + 1, y);
+var nowallcheck_up = !tilemap_get_at_pixel(wallmap, x, y - 1);
+var nowallcheck_down = !tilemap_get_at_pixel(wallmap, x, y + 1);
+
+
+
+
+
+if (sliding) {
+	switch (moveX != 0 or moveY != 0) {
+		case dir_left:	for (moveX = 0; nowallcheck_left; moveX = -spd) { nomove = true; }
+		case dir_right: for (moveX = 0; nowallcheck_right; moveX = spd) { nomove = true; }
+		case dir_up:	for (moveY = 0; nowallcheck_up; moveX = -spd)	{ nomove = true; }
+		case dir_down:	for (moveY = 0; nowallcheck_down; moveX = spd)	{ nomove = true; }
+	}
+}
+
+
+if (moveX != 0 or moveY != 0) { //if moving, sliding = true (disables else if)
+	sliding = true;
+}	else if (!nomove) { //if not moving/SLIDING, can move now
+							moveX = (input_right - input_left) * spd;
+			if (moveX == 0) { moveY = (input_down - input_up) * spd; }
+}
+
+
+
+if (!tilemap_get_at_pixel(icemap, x, y)) { //State Check
+	state = states.normal;
+}
+
+
+scr_player_wall(); //collision checks
+----------------------------------------------------------------------
+var arg; //arg[i] = all argument arrays stored in it's own different arrays. (arg[0] = argument0, etc.)
+for (var i = argument_count; i >= 0; i--) {
+	arg[i] = argument[i];
+}
+
+var dsGrid = ds_grid_create(5, argument_count); //creating ds_grid size
+
+for (var i = 0; i < argument_count; ) { 
+	var array = arg[i];
+	var arrLen = array_length_1d(array);
+		for (var xx = 0; xx < arrLen; xx++) {
+			dsGrid[# xx, i] = array[xx];
+		}
+	i++;
+}
+
+
+
+
+return dsGrid;
+//store argument in variable (argument is an entire array) (switching i value of arg[i] will swap to different array.)
+for (var i = 0; i < argument_count; i++) {
+	arg[i] = argument[i]; //arg[i] = the whole array
+}
+
+var dsGrid1 = ds_grid_create(5, argument_count);
+//fill in the grid with argument array entries
+
+//y coord on ds_grid
+for (i = 0; i < argument_count; /*N/A*/) {
+	var array1 = arg[i];
+	var arrLen1 = array_length_1d(array1);
+		for (var xx = 0; xx < arrLen1; xx++) { //x coord on ds_grid
+			dsGrid1[# xx, i] = array[xx]
+		}
+	i++;
+}
+-----------------------------------------------------------------------------------
+if (keyboard_check_pressed(vk_escape)) { active = !active; }
+
+if (active) {
+	var move = 0;
+	move -= max(keyboard_check_pressed(ord("W")), keyboard_check_pressed(vk_up), 0); //for different keys
+	move += max(keyboard_check_pressed(ord("S")), keyboard_check_pressed(vk_down), 0);
+
+
+	if (move != 0) {
+		m_index += move;
+		if (m_index < 0) { m_index = array_length_1d(menu) - 1; }
+		if (m_index > (array_length_1d(menu) - 1)) { m_index = 0; }
+		if (m_index != move) { audio_play_sound(snd_menu, 1, false); }
+	}
+
+	var accept;
+
+	accept = max(keyboard_check_released(vk_space), keyboard_check_released(vk_enter), 0); //0 so max wil choose 1's
+	//if (accept == 1) { scr_menu(); }
+}
+----------------------------------------------------------------------- create event
+menu[0] = "Volume";
+menu[1] = "Font Size";
+menu[2] = "Colors";
+menu[3] = "Quit";
+
+active = false;
+m_index = 0;
+-------------------------------------------------------
+if (active) {
+	for (var i = 3; i >= 0; i--) { //initialize backwards for efficiency
+		draw_set_font(fnt_menu);
+		draw_set_halign(fa_center);
+		draw_set_color(c_silver);
+		
+		if (m_index == i) { draw_set_color(c_fuchsia); } //line that "sets cursor" on array indice
+		
+		draw_text(view_wport[0] / 2, ((view_hport[0] / 2) - 100) + (i * 32), menu[i]);
+	}
+}
+--------------------------------------------------------------------
+var p1 = place_meeting(x + moveX, y, obj_player);
+var ps1 = !place_meeting(x + sign(moveX), y, obj_player);
+var p2 = place_meeting(x + moveX, y, obj_NPC);
+var ps2 = !place_meeting(x + sign(moveX), y, obj_NPC);
+
+if (p1) {
+	while (ps1) {
+		x += sign(moveX);
+	}
+	moveX = 0;
+}
+
+if (p2) {
+	while (ps2) {
+		x += sign(moveX);
+	}
+	moveX = 0;
+}
+---------------------------------------------------------------------------------
+var p1 = place_meeting(x, y + moveY, obj_player);
+var ps1 = !place_meeting(x, y + sign(moveY), obj_player);
+var p2 = place_meeting(x, y + moveY, obj_NPC);
+var ps2 = !place_meeting(x, y + sign(moveY), obj_NPC);
+
+if (p1) {
+	while (ps1) {
+		y += sign(moveY);
+	}
+	moveY = 0;
+}
+
+if (p2) {
+	while (ps2) {
+		y += sign(moveY);
+	}
+	moveY = 0;
+}
+------------------------------------------------------------------------------------------
+#region Meeting Vars
+	var meeting = tilemap_get_at_pixel(wallmap, bbox_left + (sign(moveX) * 16), bbox_top)
+	||
+	tilemap_get_at_pixel(wallmap, bbox_left + (sign(moveX) * 16), bbox_bottom)
+	||
+	tilemap_get_at_pixel(wallmap, bbox_right + (sign(moveX) * 16), bbox_top)
+	||
+	tilemap_get_at_pixel(wallmap, bbox_right + (sign(moveX) * 16), bbox_bottom)
+	||
+	tilemap_get_at_pixel(wallmap, bbox_left, bbox_top + (sign(moveY) * 16))
+	||
+	tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + (sign(moveY) * 16))
+	||
+	tilemap_get_at_pixel(wallmap, bbox_right, bbox_top + (sign(moveY) * 16))
+	||
+	tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + (sign(moveY) * 16));
+	//---------------------------------------------------------------------
+	var meeting16 = tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_top)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_bottom)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_top)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_bottom)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_top + (sign(moveY) * 8))
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_bottom + (sign(moveY) * 8))
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_top + (sign(moveY) * 8))
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_bottom + (sign(moveY) * 8))
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_top + sprite_height / 2)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_top + sprite_height / 2)
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left + sprite_width / 2, bbox_top + (sign(moveY) * 8))
+	||
+	tilemap_get_at_pixel(S_wallmap, bbox_left + sprite_width / 2, bbox_bottom + (sign(moveY) * 8));
+	#endregion
+
+if (meeting or meeting16) {
+	switch (moveNPC) {
+		case npc.walku: moveY = spd;			break;
+		case npc.walkd: moveY = -spd;			break;
+		case npc.walkl:	moveX = spd;			break;
+		case npc.walkr:	moveX = -spd;			break;
+		case npc.stand: moveX = 0; moveY = 0;	break;
+	}
+}
+-------------------------------------------------------------------------------------------------
+enum npcmove { 
+	u,
+	d,
+	l,
+	r,
+	ur,
+	dr,
+	ul,
+	dl,
+	stop
+}
+
+var npcpoints = 0;
+
+
+
+if (npcpoints mod 3 == 0) { //change 3 to a var
+	var npctimer = room_speed * 2;
+	var moveNPC = npcmove.stop;
+} else { 
+	npctimer = room_speed / 2;
+	moveNPC = choose(
+			npcmove.u, 
+			npcmove.d, 
+			npcmove.l, 
+			npcmove.r, 
+			npcmove.ur, 
+			npcmove.dr, 
+			npcmove.ul, 
+			npcmove.dl, 
+	);
+}
+
+switch (moveNPC) {
+	case npcmove.u:		moveY = -spd;						break;
+	case npcmove.d:		moveY = spd;						break;
+	case npcmove.l:		moveX = -spd;						break;
+	case npcmove.r:		moveX = spd;						break;
+	case npcmove.ur:	moveX = spd;  moveY = -spd;			break;
+	case npcmove.dr:	moveX = spd;  moveY = spd;			break;
+	case npcmove.ul:	moveX = -spd; moveY = -spd;			break;
+	case npcmove.dl:	moveX = -spd; moveY = spd;			break;
+	case npcmove.stop:  moveX = 0;	  moveY = 0;			break;
+}
+
+npcpoints += 1;
+----------------------------------------------------------------------------------------
+choose(npcmove.u, npcmove.d, npcmove.l, npcmove.r, npcmove.ur, npcmove.dr, npcmove.ul, npcmove.dl); 
+------------------------------------------------------------------
+/*show_debug_message("alarm trigger");
+
+scr_mvars(.2, .3);
+
+var npctimer = room_speed * .2;
+
+
+enum npcmove {
+	u,
+	d,
+	l,
+	r,
+	ur,
+	dr,
+	ul,
+	dl,
+	stop
+}
+
+if (npcpoints == 3) {
+	npctimer = room_speed * 2;
+	var moveNPC = npcmove.stop;
+	npcpoints++;
+} else { moveNPC = choose(	
+			npcmove.u, 
+			npcmove.d, 
+			npcmove.l, 
+			npcmove.r, 
+			npcmove.ur, 
+			npcmove.dr, 
+			npcmove.ul, 
+			npcmove.dl, 
+		); 
+} 
+
+if (moveNPC != npcmove.stop) { 
+	npcpoints++; 
+} 
+
+switch (moveNPC) {
+	case npcmove.u:		moveY = -spd;						break;
+	case npcmove.d:		moveY = spd;						break;
+	case npcmove.l:		moveX = -spd;						break;
+	case npcmove.r:		moveX = spd;						break;
+	case npcmove.ur:	moveX = spd;  moveY = -spd;			break;
+	case npcmove.dr:	moveX = spd;  moveY = spd;			break;
+	case npcmove.ul:	moveX = -spd; moveY = -spd;			break;
+	case npcmove.dl:	moveX = -spd; moveY = spd;			break;
+	case npcmove.stop:  moveX = 0;	  moveY = 0;			break;
+} 
+
+show_debug_message("moveNPC: " + string(moveNPC));
+
+
+
+show_debug_message(string(npcpoints)); 
+
+scr_diagonal(); 
+
+scr_momentum(false, 0); 
+
+scr_fractional(); 
+
+alarm[0] = npctimer; 
+--------------------------------------------------------------------
+scr_mvars(.2, .3);
+/*
+movetimer = measures time moving
+stoptimer = measures time standing still/stopping
+*/
+enum npcmove {
+	u,
+	d,
+	l,
+	r,
+	ur,
+	dr,
+	ul,
+	dl,
+	stop,
+	none
+}
+
+
+if (movetimer > 0) { movetimer--; }
+if (stoptimer > 0) { stoptimer--; }
+
+show_debug_message("movetimer: " + string(movetimer));
+show_debug_message("stoptimer: " + string(stoptimer));
+
+if (movetimer == 0) { 
+	npcpoints++; 
+	if (npcpoints mod 3 == 0) { stoptimer = room_speed * 1.5; } else { stoptimer = room_speed / 2; } 
+	moveNPC = npcmove.stop; 
+	movetimer = -1; 
+}
+
+if (stoptimer == 0) { 
+	movetimer = room_speed * .3;
+	moveNPC = choose(npcmove.u, npcmove.d, npcmove.l, npcmove.r, npcmove.ur, npcmove.dr, npcmove.ul, npcmove.dl); 
+	stoptimer = -1;
+}
+
+
+
+switch (moveNPC) {
+	case npcmove.u:		moveY = -spd;						break;
+	case npcmove.d:		moveY = spd;						break;
+	case npcmove.l:		moveX = -spd;						break;
+	case npcmove.r:		moveX = spd;						break;
+	case npcmove.ur:	moveX = spd;  moveY = -spd;			break;
+	case npcmove.dr:	moveX = spd;  moveY = spd;			break;
+	case npcmove.ul:	moveX = -spd; moveY = -spd;			break;
+	case npcmove.dl:	moveX = -spd; moveY = spd;			break;
+	case npcmove.stop:  moveX = 0;	  moveY = 0;			break;
+}
+
+
+#region Collision Prevention
+var meeting = tilemap_get_at_pixel(wallmap, bbox_left + (sign(moveX) * 16), bbox_top)
+||
+tilemap_get_at_pixel(wallmap, bbox_left + (sign(moveX) * 16), bbox_bottom)
+||
+tilemap_get_at_pixel(wallmap, bbox_right + (sign(moveX) * 16), bbox_top)
+||
+tilemap_get_at_pixel(wallmap, bbox_right + (sign(moveX) * 16), bbox_bottom)
+||
+tilemap_get_at_pixel(wallmap, bbox_left, bbox_top + (sign(moveY) * 16))
+||
+tilemap_get_at_pixel(wallmap, bbox_left, bbox_bottom + (sign(moveY) * 16))
+||
+tilemap_get_at_pixel(wallmap, bbox_right, bbox_top + (sign(moveY) * 16))
+||
+tilemap_get_at_pixel(wallmap, bbox_right, bbox_bottom + (sign(moveY) * 16));
+//---------------------------------------------------------------------
+var meeting16 = tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_top)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_bottom)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_top)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_bottom)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_top + (sign(moveY) * 8))
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left, bbox_bottom + (sign(moveY) * 8))
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_top + (sign(moveY) * 8))
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right, bbox_bottom + (sign(moveY) * 8))
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left + (sign(moveX) * 8), bbox_top + sprite_height / 2)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_right + (sign(moveX) * 8), bbox_top + sprite_height / 2)
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left + sprite_width / 2, bbox_top + (sign(moveY) * 8))
+||
+tilemap_get_at_pixel(S_wallmap, bbox_left + sprite_width / 2, bbox_bottom + (sign(moveY) * 8));
+#endregion
+
+
+if (meeting || meeting16) {
+	if (moveX > 0) { moveX = moveX * -1; }
+	if (moveX < 0) { moveX = abs(moveX); }
+	if (moveY > 0) { moveY = moveY * -1; }
+	if (moveY < 0) { moveY = abs(moveY); }
+}
+
+
+show_debug_message(string(moveNPC));
+show_debug_message("points: " + string(npcpoints));
+
+scr_diagonal(); 
+
+scr_momentum(false, 0); 
+
+scr_fractional(); 
+
+
+scr_player_wall(); 
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+					
+					

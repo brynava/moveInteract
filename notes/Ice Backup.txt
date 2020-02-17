@@ -1,0 +1,64 @@
+scr_getinputs(); //input keys/variables
+
+
+
+spd = ispd;
+nomove = false; //if = true, can move
+sliding = false; //if = true can't move
+
+var dir_left = moveX < 0;
+var dir_right = moveX > 0;
+var dir_up = moveY < 0;
+var dir_down = moveY > 0;
+
+var nowallcheck_left = !place_meeting(x - 1, y, obj_wall);
+var nowallcheck_right = !place_meeting(x + 1, y, obj_wall);
+var nowallcheck_up = !place_meeting(x, y - 1, obj_wall);
+var nowallcheck_down = !place_meeting(x, y + 1, obj_wall);
+//use switch statements, and turn placemeeting into variables, turn moveX >< 0 into variables.
+
+
+if (sliding) { //if moving, (way below if statement), sliding = true, if sliding = true, then run below for loops.
+	if (dir_left) { //if moving left, run loop
+		for (moveX = 0; nowallcheck_left; moveX = -spd) { //moveX set 0, if no wall, run loop, loop = moveX = -spd
+			nomove = true; //nomove set to true, disables input (way below)
+		}
+	}
+
+	else if (dir_right) {
+		for (moveX = 0; nowallcheck_right; moveX = spd) {
+			nomove = true;
+		}
+	}
+
+	else if (dir_up) {
+		for (moveY = 0; nowallcheck_up; moveY = -spd) {
+			nomove = true;
+		}
+	}
+
+	else if (dir_down) {
+		for (moveY = 0; nowallcheck_down; moveY = spd) {
+			nomove = true;
+		}
+	}
+}
+
+
+
+if (moveX != 0 or moveY != 0) { //if moving, sliding = true (disables else if)
+	sliding = true;
+}	else if (nomove = false) { //if not moving/SLIDING, can move now
+			moveX = (input_right - input_left) * spd;
+			if (moveX == 0) { moveY = (input_down - input_up) * spd; }
+	}
+
+
+
+if (!place_meeting(x, y, obj_ice)) { //State Check
+	state = states.normal;
+}
+
+
+
+collisioncheck(wallmap);(); //collision checks
